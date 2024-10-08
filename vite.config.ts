@@ -4,7 +4,7 @@ import path from "path";
 export default defineConfig({
 	build: {
 		lib: {
-			entry: path.resolve(__dirname, "src/package/specific/index.d.ts"),
+			entry: path.resolve(__dirname, "src/package/specific/index.ts"),
 			name: "Formiz",
 		},
 		rollupOptions: {
