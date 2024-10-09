@@ -38,7 +38,6 @@ export type EmailFieldConfig = {
 
 export type PasswordFieldConfig = {
 	type: "password";
-	optional?: boolean;
 	minLength?: { value: number; message?: string };
 	maxLength?: { value: number; message?: string };
 	regex?: { value: RegExp; message?: string };
