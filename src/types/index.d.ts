@@ -1,14 +1,14 @@
-import { z, ZodSchema } from "zod";
+import { z } from "zod";
 import { SubmitHandler } from "react-hook-form";
 
-export interface FormProps<T extends ZodSchema>
+export interface FormProps<T extends z.ZodSchema>
 	extends React.FormHTMLAttributes<HTMLFormElement> {
 	schema: T;
 	onSubmit: SubmitHandler<z.infer<T>>;
 	children: React.ReactNode;
 }
 
-export interface InputProps<T extends ZodSchema>
+export interface InputProps<T extends z.ZodSchema>
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;
 	label: string;

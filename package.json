@@ -3,7 +3,7 @@
 	"description": "An easy form validation package for react, built with React hook form and zod library",
 	"private": true,
 	"main": "dist/formiz.js",
-	"types": "src/package/specific/index.ts",
+	"types": "dist/index.d.ts",
 	"version": "1.0.0",
 	"type": "module",
 	"repository": {
@@ -17,8 +17,7 @@
 		"preview": "vite preview"
 	},
 	"files": [
-		"dist",
-		"src/package/specific/index.ts"
+		"dist"
 	],
 	"peerDependencies": {
 		"react": "^18.3.1",

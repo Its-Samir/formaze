@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { refactorFieldName } from "../_utils";
-import {
-	FieldConfig,
-	SchemaConfig,
-	SchemaKeyValuePair,
-} from "../../types/types";
+import { FieldConfig, SchemaConfig, SchemaKeyValuePair } from "types/index";
 
 export const useFormSchema = <
 	T extends SchemaConfig<Record<string, FieldConfig>>

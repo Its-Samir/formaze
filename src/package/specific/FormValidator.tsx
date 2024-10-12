@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { ZodSchema, z } from "zod";
 import { cn } from "../_utils";
-import { FormFieldProps, FormProps, InputProps } from "../../types/types";
+import { FormFieldProps, FormProps, InputProps } from "types/index";
 
 export const createFormValidator = <T extends ZodSchema>() => {
 	const Form = ({ schema, onSubmit, children, className }: FormProps<T>) => {

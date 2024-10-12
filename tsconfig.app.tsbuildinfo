@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/package/_utils/index.ts","./src/package/specific/formvalidator.tsx","./src/package/specific/index.ts","./src/package/specific/useformschema.ts","./src/types/types.d.ts"],"version":"5.6.2"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/package/index.d.ts","./src/package/_utils/index.ts","./src/package/specific/formvalidator.tsx","./src/package/specific/index.ts","./src/package/specific/useformschema.ts","./src/types/types.d.ts"],"version":"5.6.2"}
