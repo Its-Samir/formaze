@@ -20,7 +20,7 @@ npm install formaze
 
 ```tsx
 import { z } from "zod";
-import { useFormSchema, FormValidator } from "formaze";
+import { useFormSchema, createFormValidator } from "formaze";
 /* for pre tailwind css styles (check the styling guide below) */
 import "formaze/dist/style.css";
 
