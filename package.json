@@ -1,9 +1,9 @@
 {
-	"name": "formiz",
+	"name": "formaze",
 	"description": "An easy form validation package for react, built by using React hook form and zod library",
-	"main": "dist/formiz.js",
+	"main": "dist/formaze.js",
 	"types": "dist/index.d.ts",
-	"version": "1.0.0",
+	"version": "1.0.21",
 	"type": "module",
 	"keywords": [
 		"react",
@@ -13,7 +13,8 @@
 		"form-validation"
 	],
 	"repository": {
-		"type": "git"
+		"type": "git",
+		"url": "https://github.com/Its-Samir/formaze"
 	},
 	"license": "MIT",
 	"scripts": {

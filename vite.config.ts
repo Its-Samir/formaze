@@ -5,7 +5,7 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: path.resolve(__dirname, "src/package/specific/index.ts"),
-			name: "Formiz",
+			name: "Formaze",
 		},
 		rollupOptions: {
 			external: ["react", "react-dom", "react-hook-form", "zod"],

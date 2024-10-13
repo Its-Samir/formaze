@@ -1,4 +1,4 @@
-declare module "formiz" {
+declare module "formaze" {
 	import { z } from "zod";
 	import { type SubmitHandler } from "react-hook-form";
 
