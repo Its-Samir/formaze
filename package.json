@@ -1,11 +1,17 @@
 {
 	"name": "formiz",
-	"description": "An easy form validation package for react, built with React hook form and zod library",
-	"private": true,
+	"description": "An easy form validation package for react, built by using React hook form and zod library",
 	"main": "dist/formiz.js",
 	"types": "dist/index.d.ts",
 	"version": "1.0.0",
 	"type": "module",
+	"keywords": [
+		"react",
+		"react-hook-form",
+		"zod",
+		"forms",
+		"form-validation"
+	],
 	"repository": {
 		"type": "git"
 	},

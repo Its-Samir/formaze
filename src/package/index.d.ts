@@ -109,5 +109,23 @@ declare module "formiz" {
 		T extends SchemaConfig<Record<string, FieldConfig>>
 	>(
 		schemaConfig: SchemaConfig<T>
-	) => z.ZodObject<SchemaKeyValuePair<T>, "strip", z.ZodTypeAny>;
+	) => z.ZodObject<
+		SchemaKeyValuePair<T>,
+		"strip",
+		z.ZodTypeAny,
+		{
+			[k in keyof z.objectUtil.addQuestionMarks<
+				z.baseObjectOutputType<SchemaKeyValuePair<T>>,
+				any
+			>]: z.objectUtil.addQuestionMarks<
+				z.baseObjectOutputType<SchemaKeyValuePair<T>>,
+				any
+			>[k];
+		},
+		{
+			[k_1 in keyof z.baseObjectInputType<
+				SchemaKeyValuePair<T>
+			>]: z.baseObjectInputType<SchemaKeyValuePair<T>>[k_1];
+		}
+	>;
 }
