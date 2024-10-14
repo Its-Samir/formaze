@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { SubmitHandler } from "react-hook-form";
+import { SubmitHandler, DefaultValues } from "react-hook-form";
 
 export interface FormProps<T extends z.ZodSchema>
 	extends React.FormHTMLAttributes<HTMLFormElement> {
 	schema: T;
 	onSubmit: SubmitHandler<z.infer<T>>;
+	defaultValues?: DefaultValues<z.infer<T>>;
 	children: React.ReactNode;
 }
 

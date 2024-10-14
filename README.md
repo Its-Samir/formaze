@@ -1,6 +1,6 @@
 # Formaze: A Customizable Form Validation package for React
 
-`Formaze` is a flexible and customizable form validation package for react built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handle complex form validation logic efficiently with proper type-safety.
+Formaze is a flexible and customizable form validation package for react built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handle complex form validation logic efficiently with proper type-safety.
 
 -  Supports multiple field types such as `string`, `email`, `password`, `number`, `date`, and `boolean`.
 -  Efficient utilization of zod's built-in validation like `min`, `max`, `regex`, and `optional`.
@@ -20,8 +20,8 @@ npm install formaze
 
 ```tsx
 import { z } from "zod";
-import { useFormSchema, FormValidator } from "formaze";
-/* for pre tailwind css styles (check the styling guide below) */
+import { useFormSchema, createFormValidator } from "formaze";
+/* for pre-styled css (check the styling guide below) */
 import "formaze/dist/style.css";
 
 // create the validation schema
@@ -41,24 +41,28 @@ const formSchema = useFormSchema({
 const Form = createFormValidator<typeof formSchema>();
 
 export function RegistrationForm() {
-	function onSubmit(data: z.infer<typeof formSchema>) {
+	function handleSubmit(data: z.infer<typeof formSchema>) {
 		const result = formSchema.safeParse(data);
 
-		if (!result.success) throw new Error("Validation error");
+		if (!result.success) throw new Error("Invalid inputs");
 
 		console.log(data);
 	}
 
 	return (
-		<Form schema={formSchema} onSubmit={onSubmit}>
-			<Form.Input type="email" name="email" placeholder="Enter your email" />
+		<Form schema={formSchema} onSubmit={handleSubmit}>
+			<Form.Input
+			 	type="email" 
+				name="email" 
+				placeholder="Enter your email"
+			/>
 			<Form.Input
 				type="password"
 				name="password"
 				placeholder="Enter your password"
 			/>
 			<button
-				className="disabled:cursor-not-allowed border rounded-md bg-blue-400 py-1 px-3 text-white hover:bg-blue-500"
+				className="rounded-md bg-blue-400 py-1 px-3 text-white hover:bg-blue-500"
 				type="submit"
 			>
 				Submit
@@ -117,45 +121,11 @@ You can specify the following validation options for each field:
 
 ## For Styling (Make sure you have installed and initialized tailwindcss to your project)
 
-```bash
-npm install -D tailwindcss postcss autoprefixer
-```
+Follow the [Official Tailwind Docs](https://tailwindcss.com/docs/guides/vite) for initializing project
 
-```bash
-npx tailwindcss init -p
-```
-
-### Configure your template paths
-
-Add the paths to all of your template files in your tailwind.config.js file.
-
-Currently support only for Vite:
-
+#### You can add your own styles or import our css file to the main or App component
 ```js
-/** @type {import('tailwindcss').Config} */
-export default {
-	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-	theme: {
-		extend: {},
-	},
-	plugins: [],
-};
-```
-
-### Add the Tailwind directives to your CSS
-
-Add the @tailwind directives for each of Tailwind’s layers to your main CSS file.
-
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-### lastly add the css file to the main or App component
-
-```js
-import "formze/dist/style.css";
+import "formaze/dist/style.css";
 ```
 
 ## (That's it!)

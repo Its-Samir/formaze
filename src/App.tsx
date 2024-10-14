@@ -48,6 +48,12 @@ function App() {
 				<Form.Input label="Age" name="age" type="number" />
 				<Form.Input label="Date of Birth" name="dob" type="date" />
 				<Form.Input label="Accept Terms" name="terms" type="checkbox" />
+				<button
+					className="rounded-md bg-blue-400 py-1 px-3 text-white hover:bg-blue-500"
+					type="submit"
+				>
+					Submit
+				</button>
 			</Form>
 		</>
 	);

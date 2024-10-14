@@ -6,9 +6,16 @@ import { cn } from "../_utils";
 import { FormFieldProps, FormProps, InputProps } from "types/index";
 
 export const createFormValidator = <T extends ZodSchema>() => {
-	const Form = ({ schema, onSubmit, children, className }: FormProps<T>) => {
+	const Form = ({
+		schema,
+		onSubmit,
+		defaultValues,
+		children,
+		className,
+	}: FormProps<T>) => {
 		const form = useForm<z.infer<T>>({
 			resolver: zodResolver(schema),
+			defaultValues: defaultValues,
 			mode: "onSubmit",
 		});
 
@@ -17,7 +24,7 @@ export const createFormValidator = <T extends ZodSchema>() => {
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
 					className={cn(
-						"p-4 flex flex-col items-start space-y-2",
+						"p-4 flex flex-col justify-center space-y-2",
 						className
 					)}
 				>
