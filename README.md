@@ -21,7 +21,11 @@ npm install formaze
 ```tsx
 import { z } from "zod";
 import { useFormSchema, createFormValidator } from "formaze";
+<<<<<<< HEAD
 /* for pre-styled css (check the styling guide below) */
+=======
+/* for pre tailwind css styles (check the styling guide below) */
+>>>>>>> fd15e5d8922f414cf48a4aa67580208ac279f19f
 import "formaze/dist/style.css";
 
 // create the validation schema
