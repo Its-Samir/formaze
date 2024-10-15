@@ -24,7 +24,7 @@ export const createFormValidator = <T extends ZodSchema>() => {
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
 					className={cn(
-						"p-4 flex flex-col justify-center space-y-2",
+						"p-4 flex flex-col justify-center space-y-2 form-control",
 						className
 					)}
 				>
@@ -44,7 +44,7 @@ export const createFormValidator = <T extends ZodSchema>() => {
 					id={name as string}
 					{...register(name as string)}
 					className={cn(
-						"mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200",
+						"mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 form-input form-input-field",
 						className
 					)}
 					{...props}
@@ -63,7 +63,10 @@ const FormLabel = React.forwardRef<
 	return (
 		<label
 			ref={ref}
-			className={cn("text-sm font-medium text-gray-700", className)}
+			className={cn(
+				"text-sm font-medium text-gray-700 form-label",
+				className
+			)}
 			htmlFor={htmlFor}
 		>
 			{children}
@@ -79,12 +82,19 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
 
 		return (
 			<div
-				className={`flex flex-col ${errors[name] ? "text-red-600" : ""}`}
+				className={`flex flex-col form-field ${
+					errors[name] ? "text-red-600 form-field-error" : ""
+				}`}
 				ref={ref}
 			>
 				{children}
 				{errors[name] ? (
-					<span className={cn("text-red-600 text-sm", className)}>
+					<span
+						className={cn(
+							"text-red-600 text-sm form-field-error-text",
+							className
+						)}
+					>
 						{errors[name]?.message as string}
 					</span>
 				) : null}

@@ -8,8 +8,6 @@ Formaze is a flexible and customizable form validation package for react built w
 
 ## Installation
 
-At First, make sure you have initialized your react project with tailwindcss. (See Guide Below)
-
 You can install the package via npm.
 
 ```bash
@@ -19,6 +17,9 @@ npm install formaze
 ## Quickstart
 
 ```tsx
+// if you are using next.js (app router) then activate the below line "use client" directive otherwise remove it
+
+// "use client" 
 import { z } from "zod";
 import { useFormSchema, createFormValidator } from "formaze";
 /* for pre-styled css (check the styling guide below) */
@@ -62,7 +63,7 @@ export function RegistrationForm() {
 				placeholder="Enter your password"
 			/>
 			<button
-				className="rounded-md bg-blue-400 py-1 px-3 text-white hover:bg-blue-500"
+				className="rounded-md bg-blue-500 py-1 px-3 text-white hover:bg-blue-600"
 				type="submit"
 			>
 				Submit
@@ -108,7 +109,18 @@ const formSchema = useFormSchema({
 });
 ```
 
-### validation option
+Though, you can directly use `zod` to define schema as well and pass it to the Form props created through `createFormValidator` method.
+
+```tsx
+import { z } from "zod";
+
+const formSchema = z.object({
+	email: z.string().email(),
+	name: z.string().min(3, {message: "Required"})
+});
+```
+
+### Validation options
 
 You can specify the following validation options for each field:
 
@@ -119,13 +131,65 @@ You can specify the following validation options for each field:
 -  **regex**: Allows defining a regular expression pattern for string validation.
 -  **optional**: Marks a field as optional.
 
-## For Styling (Make sure you have installed and initialized tailwindcss to your project)
+## Styling
 
-Follow the [Official Tailwind Docs](https://tailwindcss.com/docs/guides/vite) for initializing project
+- For Tailwind (pre-styled)
 
-#### You can add your own styles or import our css file to the main or App component
+Follow the [Official Tailwind Docs](https://tailwindcss.com/docs/installation/framework-guides) for initializing project with vite or next.js
+
+You can add your own styles or import the below css (styled with tailwind css) file into the main or App component or the component where the form is being used
+
 ```js
 import "formaze/dist/style.css";
+```
+
+- For Pure CSS
+Here are the css classes with default styles, add it into main css file
+```css
+.form-control {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   gap: 1rem;
+}
+
+.form-control .form-field {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.form-control .form-field .form-input {
+   padding: 10px 1rem;
+   border-radius: 10px;
+   border-width: 1px;
+   border-color: rgb(209 213 219);
+}
+
+.form-control .form-field .form-input:focus {
+   border-color: rgb(59 130 246);
+   outline: none;
+}
+
+.form-control .form-field-error-text { 
+   color: rgb(220, 38, 38);
+	font-size: 0.875rem;
+}
+
+/* or */
+
+.form-control .form-field-error { 
+   color: rgb(220, 38, 38);
+}
+```
+
+## For Next.js (app router)
+
+You just have to add `"use client"` directive at the top of your file where you are using this form and its related methods
+
+```tsx
+"use client"
+// your code
 ```
 
 ## (That's it!)

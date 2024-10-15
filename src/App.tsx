@@ -1,5 +1,5 @@
-import { createFormValidator } from "./package/specific/FormValidator";
-import { useFormSchema } from "./package/specific/useFormSchema";
+import { createFormValidator } from "./package/specific/index";
+import { useFormSchema } from "./package/specific/index";
 
 const registrationSchema = useFormSchema({
 	email: {

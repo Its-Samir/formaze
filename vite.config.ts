@@ -8,13 +8,11 @@ export default defineConfig({
 			name: "Formaze",
 		},
 		rollupOptions: {
-			external: ["react", "react-dom", "react-hook-form", "zod"],
+			external: ["react", "react-dom"],
 			output: {
 				globals: {
 					react: "React",
 					"react-dom": "ReactDOM",
-					"react-hook-form": "ReactHookForm",
-					zod: "Zod",
 				},
 			},
 		},

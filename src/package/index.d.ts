@@ -2,7 +2,7 @@ import { z } from "zod";
 import { DefaultValues, SubmitHandler } from "react-hook-form";
 
 interface FormProps<T extends z.ZodSchema>
-	extends React.HTMLAttributes<HTMLFormElement> {
+	extends React.FormHTMLAttributes<HTMLFormElement> {
 	schema: T;
 	onSubmit: SubmitHandler<z.infer<T>>;
 	defaultValues?: DefaultValues<z.infer<T>>;
@@ -10,9 +10,9 @@ interface FormProps<T extends z.ZodSchema>
 }
 
 interface InputProps<T extends z.ZodSchema>
-	extends React.HTMLAttributes<HTMLInputElement> {
+	extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;
-	label: string;
+	label?: string;
 }
 
 interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
