@@ -10,7 +10,7 @@ interface FormProps<T extends z.ZodSchema>
 }
 
 interface InputProps<T extends z.ZodSchema>
-	extends React.InputHTMLAttributes<HTMLInputElement> {
+	extends React.HTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;
 	label?: string;
 }
@@ -98,10 +98,72 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
 		: z.ZodTypeAny;
 };
 
+/**
+ * Generates a Form component with built-in validation using Zod and React Hook Form.
+ * The returned Form component also includes an Input component for form fields with automatic schema-based validation.
+ *
+ * @template T - The Zod schema used to define the structure and validation rules for the form.
+ *
+ * @returns {{
+ *   ({schema, children, className, onSubmit, ...props}: FormProps<T>): JSX.Element;
+ *   Input: ({label, name, className, ...props}: InputProps<T>) => JSX.Element;
+ * }} - The generated Form component that supports schema-based form handling and an Input component for each form field.
+ *
+ * @component Form
+ * @param {T} schema - Zod schema defining the form fields and validation rules.
+ * @param {SubmitHandler<z.infer<T>>} onSubmit - Function to handle form submission after successful validation.
+ * @param {DefaultValues<z.infer<T>>} [defaultValues] - Optional default values to pre-populate the form fields.
+ * @param {React.ReactNode} children - Form fields and other JSX components, including Form.Input components.
+ * @param {string} [className] - Optional class for the form element.
+ *
+ * @component Input
+ * @param {keyof z.infer<T>} name - The name of the form field, matching the key of the schema.
+ * @param {string} label - Label for the form input.
+ * @param {string} [className] - Optional class for the input element.
+ * @param {...any} props - Additional input attributes like `type`, `placeholder`, etc.
+ *
+ * @example
+ * // Create a Zod schema
+ * const schema = useFormSchema({
+ *   email: { type: "email" },
+ *   password: { type: "string", minLength: { value: 8 } },
+ * });
+ *
+ * // Use the generated Form component
+ * const MyForm = createFormValidator<typeof schema>();
+ *
+ * <MyForm schema={schema} onSubmit={handleSubmit}>
+ *   <MyForm.Input name="email" label="Email" />
+ *   <MyForm.Input name="password" label="Password" type="password" />
+ *   <button type="submit">Submit</button>
+ * </MyForm>;
+ */
+
 declare const createFormValidator: <T extends z.ZodSchema>() => {
 	({ schema, onSubmit, children, className }: FormProps<T>): JSX.Element;
 	Input({ name, label, className, ...props }: InputProps<T>): JSX.Element;
 };
+
+/**
+ * Generates a Zod schema based on the provided configuration.
+ * This utility function is useful for creating dynamic form schemas with validation rules.
+ *
+ * @template T - The shape of the schema config, where T extends a record of field configurations.
+ *
+ * @param {SchemaConfig<T>} schemaConfig - An object that defines the fields and validation rules for the form.
+ * Each key in the object represents a form field, and its value specifies the field's type, optional status, and any additional validation logic.
+ *
+ * @returns {z.ZodObject<T>} - Returns a Zod schema that can be used for form validation.
+ *
+ * @example
+ * const schema = useFormSchema({
+ *   email: { type: "email" },
+ *   password: {
+ *     type: "string",
+ *     minLength: { value: 8 },
+ *   },
+ * });
+ */
 
 declare const useFormSchema: <
 	T extends SchemaConfig<Record<string, FieldConfig>>
