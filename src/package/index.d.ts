@@ -10,7 +10,7 @@ interface FormProps<T extends z.ZodSchema>
 }
 
 interface InputProps<T extends z.ZodSchema>
-	extends React.HTMLAttributes<HTMLInputElement> {
+	extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;
 	label?: string;
 }
@@ -120,20 +120,19 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * @param {keyof z.infer<T>} name - The name of the form field, matching the key of the schema.
  * @param {string} label - Label for the form input.
  * @param {string} [className] - Optional class for the input element.
- * @param {...any} props - Additional input attributes like `type`, `placeholder`, etc.
  *
  * @example
- * // Create a Zod schema
+ * // Create a form schema
  * const schema = useFormSchema({
  *   email: { type: "email" },
  *   password: { type: "string", minLength: { value: 8 } },
  * });
  *
- * // Use the generated Form component
+ * // Generate the Form component
  * const MyForm = createFormValidator<typeof schema>();
  *
- * <MyForm schema={schema} onSubmit={handleSubmit}>
- *   <MyForm.Input name="email" label="Email" />
+ * <MyForm schema={schema} onSubmit={(data) => {}}>
+ *   <MyForm.Input name="email" label="Email" type="email" />
  *   <MyForm.Input name="password" label="Password" type="password" />
  *   <button type="submit">Submit</button>
  * </MyForm>;
