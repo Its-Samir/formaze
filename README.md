@@ -9,6 +9,7 @@ Formaze is a flexible and customizable form validation package for react built w
 ## Installation
 
 You can install the package via npm.
+**Added latest guides, (the [Changes](#changes)), you can use latest version, if you have any issue with previous versions**
 
 ```bash
 npm install formaze
@@ -22,33 +23,37 @@ npm install formaze
 // "use client"
 import { z } from "zod";
 import { useFormSchema, createFormValidator } from "formaze";
-/* for pre-styled css (check the styling guide below) */
+/* pre-styled css (you can check the styling guide below) */
 import "formaze/dist/style.css";
 
 // create the validation schema
 const formSchema = useFormSchema({
- email: {
-  type: "email",
- },
- password: {
-  type: "password",
-  minLength: {
-   value: 8, // by default 6
-  },
- },
+ email: { type: "email" },
+ password: { type: "password", minLength: { value: 8 } },
 });
 
 // create the form
-const Form = createFormValidator<typeof formSchema>();
+const Form = createFormValidator(formSchema);
 
-export function RegistrationForm() {
+export function MyForm() {
+ // for TypeScript
  function handleSubmit(data: z.infer<typeof formSchema>) {
-	const result = formSchema.safeParse(data);
+  const result = formSchema.safeParse(data);
 
   if (!result.success) throw new Error("Invalid inputs");
 
   console.log(data);
  }
+
+// for JavaScript
+// /**@param {import("zod").infer<typeof formSchema>} data */
+// function handleSubmit(data) {
+//  const result = formSchema.safeParse(data);
+
+//  if (!result.success) throw new Error("Invalid inputs");
+
+//  console.log(data);
+// }
 
  return (
   <Form schema={formSchema} onSubmit={handleSubmit}>
@@ -87,10 +92,10 @@ email: {
  },
  password: {
   type: "password",
-	minLength: {
-	 value: 8,
+  minLength: {
+	value: 8,
    message: "Password must be at least 8 characters",
-	},
+  },
   maxLength: {
    value: 16,
    message: "Password must be less than 16 characters",
@@ -117,8 +122,8 @@ Though, you can directly use `zod` to define schema as well and pass it to the F
 import { z } from "zod";
 
 const formSchema = z.object({
-	email: z.string().email(),
-	name: z.string().min(3, { message: "Required" }),
+ email: z.string().email(),
+ name: z.string().min(3, { message: "Required" }),
 });
 ```
 
@@ -199,9 +204,15 @@ You just have to add `"use client"` directive at the top of your file where you 
 
 ### `createFormValidator`
 
-The createFormValidator function returns a Form component with built-in form validation using Zod and React Hook Form. It simplifies the creation of forms that adhere to a Zod schema for type-safe validation.
+The createFormValidator function accepts an argument which is a type of zod schema and returns a Form component with built-in form validation using Zod and React Hook Form. It simplifies the creation of forms that adhere to a Zod schema for type-safe validation.
 
-**Returned Form Component Props**:
+#### Argument
+
+**formSchema: `T`**
+
+-  Type: `T` (A Zod schema generated through useFormSchema or directly from Zod)
+
+**Props of the Returned Form Component**:
 
 **schema: `T`**
 
@@ -218,7 +229,7 @@ const schema = useFormSchema({
  password: { type: "string", minLength: { value: 8 } },
 });
 
-const Form = createFormValidator<typeof schema>();
+const Form = createFormValidator(schema);
 
 <Form schema={schema} onSubmit={handleSubmit} />;
 ```
@@ -295,14 +306,17 @@ The Form.Input component is a form input field that is connected to a Zod-based 
 
 **Props:**
 
-- name: `keyof z.infer<T>`
-The name of the form field, which should correspond to one of the keys in the Zod schema used in the form. This connects the input to the form's validation logic.
+-  name: `keyof z.infer<T>`
+-  Description:
+   The name of the form field, which should correspond to one of the keys in the Zod schema used in the form. This connects the input to the form's validation logic.
 
-- label: `string` (optional)
-A label for the form field. This is used for displaying a descriptive text for the input field.
+-  label: `string` (optional)
+-  Description:
+   A label for the form field. This is used for displaying a descriptive text for the input field.
 
-- ...props: `React.HTMLAttributes<HTMLInputElement>`
-Any additional props that can be passed to an HTML input element. These props allow you to customize the input field, such as adding a placeholder, className, type, etc.
+-  ...props: `React.HTMLAttributes<HTMLInputElement>`
+-  Description:
+   Any additional props that can be passed to an HTML input element. These props allow you to customize the input field, such as adding a placeholder, className, type, etc.
 
 ### `useFormSchema`
 
@@ -323,15 +337,30 @@ useFormSchema is a utility function that generates a Zod schema based on the pro
 const schema = useFormSchema({
  email: { type: "email" },
  password: {
-	type: "string",
-	minLength: {
- 	 value: 8,
-	 message: "Password must be at least 8 characters long",
-	},
+  type: "string",
+  minLength: {
+   value: 8,
+	message: "Password must be at least 8 characters long",
+  },
  },
 });
 ```
 
 This schema can then be passed to the Form component returned by `createFormValidator`.
+
+## Changes
+
+The `createFormValidator` has been changed to accept an argument which is a type of zod schema generated through useFormSchema or directly from Zod and the rest of the logic will be the same as before.
+
+In order to give proper type support for JavaScript project and to simplify the defining process this change has been made.
+
+**From this**
+```tsx 
+const Form = createFormValidator<typeof formSchema>(); ❌
+```
+**To this**
+```tsx 
+const Form = createFormValidator(formSchema); ✔
+```
 
 ## (That's it!)

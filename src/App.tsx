@@ -26,7 +26,7 @@ const registrationSchema = useFormSchema({
 	},
 });
 
-const Form = createFormValidator<typeof registrationSchema>();
+const Form = createFormValidator(registrationSchema);
 
 function App() {
 	return (

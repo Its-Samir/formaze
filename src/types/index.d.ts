@@ -9,6 +9,7 @@ export interface FormProps<T extends z.ZodSchema>
 	children: React.ReactNode;
 }
 
+// @ts-ignore
 export interface InputProps<T extends z.ZodSchema>
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;

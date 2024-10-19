@@ -9,6 +9,7 @@ interface FormProps<T extends z.ZodSchema>
 	children: React.ReactNode;
 }
 
+// @ts-ignore
 interface InputProps<T extends z.ZodSchema>
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: keyof z.infer<T>;
@@ -103,7 +104,7 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * The returned Form component also includes an Input component for form fields with automatic schema-based validation.
  *
  * @template T - The Zod schema used to define the structure and validation rules for the form.
- *
+ * @param {T} formSchema - Zod schema generated through useFormSchema or directly from Zod.
  * @returns {{
  *   ({schema, children, className, onSubmit, ...props}: FormProps<T>): JSX.Element;
  *   Input: ({label, name, className, ...props}: InputProps<T>) => JSX.Element;
@@ -129,7 +130,7 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * });
  *
  * // Generate the Form component
- * const MyForm = createFormValidator<typeof schema>();
+ * const MyForm = createFormValidator(schema);
  *
  * <MyForm schema={schema} onSubmit={(data) => {}}>
  *   <MyForm.Input name="email" label="Email" type="email" />
@@ -138,8 +139,16 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * </MyForm>;
  */
 
-declare const createFormValidator: <T extends z.ZodSchema>() => {
-	({ schema, onSubmit, children, className }: FormProps<T>): JSX.Element;
+declare const createFormValidator: <T extends z.ZodSchema>(
+	formSchema: T
+) => {
+	({
+		schema,
+		onSubmit,
+		children,
+		className,
+		...props
+	}: FormProps<T>): JSX.Element;
 	Input({ name, label, className, ...props }: InputProps<T>): JSX.Element;
 };
 
