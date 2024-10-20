@@ -12,12 +12,13 @@ export const createFormValidator = <T extends ZodSchema>(formSchema: T) => {
 		defaultValues,
 		children,
 		className,
+		mode,
 		...props
 	}: FormProps<T>) => {
 		const form = useForm<z.infer<T>>({
-			resolver: zodResolver(schema),
+			resolver: zodResolver(formSchema),
 			defaultValues: defaultValues,
-			mode: "onSubmit",
+			mode: mode || "onSubmit",
 		});
 
 		return (

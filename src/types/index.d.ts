@@ -3,10 +3,12 @@ import { SubmitHandler, DefaultValues } from "react-hook-form";
 
 export interface FormProps<T extends z.ZodSchema>
 	extends React.FormHTMLAttributes<HTMLFormElement> {
-	schema: T;
+	schema?: T;
 	onSubmit: SubmitHandler<z.infer<T>>;
 	defaultValues?: DefaultValues<z.infer<T>>;
 	children: React.ReactNode;
+	/** default is onSubmit */
+	mode?: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all";
 }
 
 // @ts-ignore

@@ -1,12 +1,14 @@
 import { z } from "zod";
 import { DefaultValues, SubmitHandler } from "react-hook-form";
 
-interface FormProps<T extends z.ZodSchema>
+export interface FormProps<T extends z.ZodSchema>
 	extends React.FormHTMLAttributes<HTMLFormElement> {
-	schema: T;
+	schema?: T;
 	onSubmit: SubmitHandler<z.infer<T>>;
 	defaultValues?: DefaultValues<z.infer<T>>;
 	children: React.ReactNode;
+	/** default is onSubmit */
+	mode?: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all";
 }
 
 // @ts-ignore
@@ -104,18 +106,19 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * The returned Form component also includes an Input component for form fields with automatic schema-based validation.
  *
  * @template T - The Zod schema used to define the structure and validation rules for the form.
- * @param {T} formSchema - Zod schema generated through useFormSchema or directly from Zod.
+ * @param {T} formSchema - Zod schema generated through makeFormSchema or directly from Zod.
  * @returns {{
- *   ({schema, children, className, onSubmit, ...props}: FormProps<T>): JSX.Element;
+ *   ({schema, children, className, onSubmit, mode, ...props}: FormProps<T>): JSX.Element;
  *   Input: ({label, name, className, ...props}: InputProps<T>) => JSX.Element;
  * }} - The generated Form component that supports schema-based form handling and an Input component for each form field.
  *
  * @component Form
- * @param {T} schema - Zod schema defining the form fields and validation rules.
+ * @param {T} schema - Optional Zod schema defining the form fields and validation rules.
  * @param {SubmitHandler<z.infer<T>>} onSubmit - Function to handle form submission after successful validation.
  * @param {DefaultValues<z.infer<T>>} [defaultValues] - Optional default values to pre-populate the form fields.
  * @param {React.ReactNode} children - Form fields and other JSX components, including Form.Input components.
  * @param {string} [className] - Optional class for the form element.
+ * @param {string} mode - Optional mode for when to trigger validation error. Default is onSubmit.
  *
  * @component Input
  * @param {keyof z.infer<T>} name - The name of the form field, matching the key of the schema.
@@ -124,7 +127,7 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  *
  * @example
  * // Create a form schema
- * const schema = useFormSchema({
+ * const schema = makeFormSchema({
  *   email: { type: "email" },
  *   password: { type: "string", minLength: { value: 8 } },
  * });
@@ -132,7 +135,7 @@ type SchemaKeyValuePair<T extends SchemaConfig<Record<string, FieldConfig>>> = {
  * // Generate the Form component
  * const MyForm = createFormValidator(schema);
  *
- * <MyForm schema={schema} onSubmit={(data) => {}}>
+ * <MyForm onSubmit={(data) => {}}>
  *   <MyForm.Input name="email" label="Email" type="email" />
  *   <MyForm.Input name="password" label="Password" type="password" />
  *   <button type="submit">Submit</button>
@@ -164,7 +167,7 @@ declare const createFormValidator: <T extends z.ZodSchema>(
  * @returns {z.ZodObject<T>} - Returns a Zod schema that can be used for form validation.
  *
  * @example
- * const schema = useFormSchema({
+ * const schema = makeFormSchema({
  *   email: { type: "email" },
  *   password: {
  *     type: "string",
@@ -173,7 +176,7 @@ declare const createFormValidator: <T extends z.ZodSchema>(
  * });
  */
 
-declare const useFormSchema: <
+declare const makeFormSchema: <
 	T extends SchemaConfig<Record<string, FieldConfig>>
 >(
 	schemaConfig: SchemaConfig<T>

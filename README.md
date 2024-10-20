@@ -1,6 +1,6 @@
-# Formaze: A Customizable Form Validation package for React
+# Formaze: A stomizable Form Validation package for React
 
-Formaze is a flexible and customizable form validation package for react built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handle complex form validation logic efficiently with proper type-safety.
+Formaze is a flexible and customizable form validation package for react built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handles complex form validation logic efficiently with proper type-safety.
 
 -  Supports multiple field types such as `string`, `email`, `password`, `number`, `date`, and `boolean`.
 -  Efficient utilization of zod's built-in validation like `min`, `max`, `regex`, and `optional`.
@@ -22,12 +22,12 @@ npm install formaze
 
 // "use client"
 import { z } from "zod";
-import { useFormSchema, createFormValidator } from "formaze";
+import { makeFormSchema, createFormValidator } from "formaze";
 /* pre-styled css (you can check the styling guide below) */
 import "formaze/dist/style.css";
 
 // create the validation schema
-const formSchema = useFormSchema({
+const formSchema = makeFormSchema({
  email: { type: "email" },
  password: { type: "password", minLength: { value: 8 } },
 });
@@ -56,23 +56,23 @@ export function MyForm() {
 // }
 
  return (
-  <Form schema={formSchema} onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit}>
    <Form.Input
     label="Email"
     type="email"
     name="email"
     placeholder="Enter your email"
-  />
-  <Form.Input
+   />
+   <Form.Input
     label="Password"
     type="password"
     name="password"
     placeholder="Enter your password"
-  />
-  <button
+   />
+   <button
     className="rounded-md bg-blue-500 py-1 px-3 text-white hover:bg-blue-600"
     type="submit"
-  >
+   >
     Submit
    </button>
   </Form>
@@ -82,10 +82,10 @@ export function MyForm() {
 
 ## Define Validation Schema
 
-The useFormSchema hook allows you to define validation rules for each field in the form. You can specify field types (`string`, `email`, `password`, `number`, `date`, `boolean`) along with their specific validation constraints like `minLength`, `maxLength`, `min`, `max`, `regex`, and `optional`.
+The makeFormSchema method allows you to define validation rules for each field in the form. You can specify field types (`string`, `email`, `password`, `number`, `date`, `boolean`) along with their specific validation constraints like `minLength`, `maxLength`, `min`, `max`, `regex`, and `optional`.
 
 ```js
-const formSchema = useFormSchema({
+const formSchema = makeFormSchema({
 email: {
  type: "email",
   customMessage: "A valid email is required",
@@ -93,7 +93,7 @@ email: {
  password: {
   type: "password",
   minLength: {
-	value: 8,
+   value: 8,
    message: "Password must be at least 8 characters",
   },
   maxLength: {
@@ -120,11 +120,14 @@ Though, you can directly use `zod` to define schema as well and pass it to the F
 
 ```tsx
 import { z } from "zod";
+import { createFormValidator } from "formaze";
 
 const formSchema = z.object({
  email: z.string().email(),
  name: z.string().min(3, { message: "Required" }),
 });
+
+const Form = createFormValidator(formSchema);
 ```
 
 ### Validation options
@@ -200,7 +203,7 @@ You just have to add `"use client"` directive at the top of your file where you 
 // your code
 ```
 
-## Components and Hooks
+## Components and methods
 
 ### `createFormValidator`
 
@@ -210,28 +213,28 @@ The createFormValidator function accepts an argument which is a type of zod sche
 
 **formSchema: `T`**
 
--  Type: `T` (A Zod schema generated through useFormSchema or directly from Zod)
+-  Type: `T` (A Zod schema generated through makeFormSchema or directly from Zod)
 
-**Props of the Returned Form Component**:
+#### Props of the Returned Form Component:
 
-**schema: `T`**
+**schema?: `T`**
 
--  Type: `T` (A Zod schema)
+-  Type: `T` (A Zod schema) (optional)
 
 -  Description:
-   The schema prop is a schema used to define the structure and validation rules for the form. This schema determines the expected fields, their types, and any validation logic, such as required fields, minimum/maximum values, regex patterns, etc.
+   This optional schema prop is a schema used to define the structure and validation rules for the form. This schema determines the expected fields, their types, and any validation logic, such as required fields, minimum/maximum values, regex patterns, etc. **NOTE: In future version this prop will be deprecated. As of now this prop is no longer needed.**
 
 -  Example:
 
 ```tsx
-const schema = useFormSchema({
+const schema = makeFormSchema({
  email: { type: "email" },
  password: { type: "string", minLength: { value: 8 } },
 });
 
 const Form = createFormValidator(schema);
 
-<Form schema={schema} onSubmit={handleSubmit} />;
+<Form schema={schema} />;
 ```
 
 **onSubmit: `SubmitHandler<z.infer<T>>`**
@@ -239,44 +242,48 @@ const Form = createFormValidator(schema);
 -  Type: `SubmitHandler<z.infer<T>>`
 
 -  Description:
-   The onSubmit prop accepts a function that is called when the form is successfully submitted. The function receives the form's validated data as its argument, which is inferred from the useFormSchema (using Zod) schema (z.infer<T>).
+   The onSubmit prop accepts a function that is called when the form is successfully submitted. The function receives the form's validated data as its argument, which is inferred from the makeFormSchema (using Zod) schema (z.infer<T>).
 
 -  Example:
 
 ```tsx
-const schema = useFormSchema({
+const schema = makeFormSchema({
  email: { type: "email" },
  password: { type: "string" },
 });
 
-const onSubmit = (data: z.infer<typeof schema>) => {
+const Form = createFormValidator(schema);
+
+const handleSubmit = (data: z.infer<typeof schema>) => {
  console.log(data); // { email: "test@example.com", password: "securePassword" }
 };
 
-<Form schema={schema} onSubmit={onSubmit} />;
+<Form onSubmit={handleSubmit} />;
 ```
 
 **defaultValues?: `DefaultValues<z.infer<T>>`**
 
--  Type: `DefaultValues<z.infer<T>>`
+-  Type: `DefaultValues<z.infer<T>>` (optional)
 
 -  Description:
-   This optional prop allows you to specify default values for the form fields. The keys should exactly match the fields defined in the useFormSchema/Zod schema, and the values should be of the appropriate type.
+   This optional prop allows you to specify default values for the form fields. The keys should exactly match the fields defined in the makeFormSchema/Zod schema, and the values should be of the appropriate type.
 
 -  Example:
 
 ```tsx
-const schema = useFormSchema({
+const schema = makeFormSchema({
  email: { type: "email" },
  password: { type: "string" },
 });
+
+const Form = createFormValidator(schema);
 
 const defaultValues = {
  email: "example@example.com",
  password: "",
 };
 
-<Form schema={schema} defaultValues={defaultValues} onSubmit={onSubmit} />;
+<Form defaultValues={defaultValues} />;
 ```
 
 **children: React.ReactNode**
@@ -291,11 +298,24 @@ You can include Form.Input for each form field, along with any other elements li
 -  Example:
 
 ```tsx
-<Form schema={schema} onSubmit={onSubmit} defaultValues={defaultValues}>
- <Form.Input name="email" placeholder="Email" />
+<Form onSubmit={onSubmit} defaultValues={defaultValues}>
+ <Form.Input type="email" name="email" placeholder="Email" />
  <Form.Input type="password" name="password" placeholder="Password" />
  <button type="submit">Submit</button>
 </Form>
+```
+
+**mode?: ValidationMode**
+
+-  Type: `"onBlur" | "onChange" | "onSubmit" | "onTouched" | "all"` (optional)
+
+-  Description:
+   This optional prop specifies when to trigger the validation error for wrong form inputs. Although, this option is also provided by react-hook-form.
+
+-  Example:
+
+```tsx
+<Form mode="onBlur" />
 ```
 
 **Input component of the generated Form**
@@ -318,9 +338,9 @@ The Form.Input component is a form input field that is connected to a Zod-based 
 -  Description:
    Any additional props that can be passed to an HTML input element. These props allow you to customize the input field, such as adding a placeholder, className, type, etc.
 
-### `useFormSchema`
+### `makeFormSchema`
 
-useFormSchema is a utility function that generates a Zod schema based on the provided configuration. It supports various field types such as string, email, password, number, date, and boolean, along with validation rules like minLength, maxLength, regex, etc.
+The makeFormSchema is a function that generates a Zod schema based on the provided configuration. It supports various field types such as string, email, password, number, date, and boolean, along with validation rules like minLength, maxLength, regex, etc.
 
 #### Arguments
 
@@ -334,13 +354,13 @@ useFormSchema is a utility function that generates a Zod schema based on the pro
 -  Example:
 
 ```tsx
-const schema = useFormSchema({
+const schema = makeFormSchema({
  email: { type: "email" },
  password: {
   type: "string",
   minLength: {
    value: 8,
-	message: "Password must be at least 8 characters long",
+   message: "Password must be at least 8 characters long",
   },
  },
 });
@@ -350,7 +370,7 @@ This schema can then be passed to the Form component returned by `createFormVali
 
 ## Changes
 
-The `createFormValidator` has been changed to accept an argument which is a type of zod schema generated through useFormSchema or directly from Zod and the rest of the logic will be the same as before.
+1. The `createFormValidator` has been changed and now it is accepting an argument which is a type of zod schema generated through `makeFormSchema` or directly from `Zod` and the rest of the logic will be the same as before.
 
 In order to give proper type support for JavaScript project and to simplify the defining process this change has been made.
 
@@ -362,5 +382,9 @@ const Form = createFormValidator<typeof formSchema>(); ❌
 ```tsx 
 const Form = createFormValidator(formSchema); ✔
 ```
+
+2. The Form component generated through `createFormValidator` method is now accepting an optional `mode` prop which you can read [about](#props-of-the-returned-form-component) here, and the `schema` prop of this Form component is now optional (**NOTE: In future version this prop will be deprecated. As of now this prop is no longer needed.**).
+
+3. The name of the `useFormSchema` has been changed to `makeFormSchema`, as per React rules we cannot use hooks outside of a React Component and this naming convention was preventing it from being used outside of a React Component, but now it's been taken into consideration. You can now use it anywhere you want.
 
 ## (That's it!)

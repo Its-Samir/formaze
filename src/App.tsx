@@ -1,7 +1,7 @@
 import { createFormValidator } from "./package/specific/index";
-import { useFormSchema } from "./package/specific/index";
+import { makeFormSchema } from "./package/specific/index";
 
-const registrationSchema = useFormSchema({
+const registrationSchema = makeFormSchema({
 	email: {
 		type: "email",
 		customMessage: "A valid email is required",
@@ -41,7 +41,6 @@ function App() {
 
 					console.log(result.data);
 				}}
-				schema={registrationSchema}
 			>
 				<Form.Input label="Email" name="email" type="email" />
 				<Form.Input label="Password" name="password" type="password" />
