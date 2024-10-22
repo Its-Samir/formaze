@@ -3,7 +3,7 @@
 	"description": "An easy form validation package for react, built by using React hook form and zod library",
 	"main": "dist/formaze.js",
 	"types": "dist/index.d.ts",
-	"version": "1.0.9",
+	"version": "2.0.0",
 	"type": "module",
 	"keywords": [
 		"react",

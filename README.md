@@ -1,9 +1,9 @@
-# Formaze: A stomizable Form Validation package for React
+# Formaze: A Customizable Form Validation package for React
 
-Formaze is a flexible and customizable form validation package for react built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handles complex form validation logic efficiently with proper type-safety.
+Formaze is a flexible and customizable form validation package for React built with `React Hook Form`, `Zod`, and `TailwindCSS`. It provides an easy way to define form validation schemas and handles complex form validation logic efficiently with proper type-safety.
 
 -  Supports multiple field types such as `string`, `email`, `password`, `number`, `date`, and `boolean`.
--  Efficient utilization of zod's built-in validation like `min`, `max`, `regex`, and `optional`.
+-  Efficient utilization of Zod's built-in validation like `min`, `max`, `regex`, and `optional`.
 -  Custom error messages.
 
 ## Installation
@@ -23,7 +23,7 @@ npm install formaze
 // "use client"
 import { z } from "zod";
 import { makeFormSchema, createFormValidator } from "formaze";
-/* pre-styled css (you can check the styling guide below) */
+/* pre-styled CSS (you can check the styling guide below) */
 import "formaze/dist/style.css";
 
 // create the validation schema
@@ -82,7 +82,7 @@ export function MyForm() {
 
 ## Define Validation Schema
 
-The makeFormSchema method allows you to define validation rules for each field in the form. You can specify field types (`string`, `email`, `password`, `number`, `date`, `boolean`) along with their specific validation constraints like `minLength`, `maxLength`, `min`, `max`, `regex`, and `optional`.
+The makeFormSchema method allows you to define validation rules for each field in the form. You can specify field types (`string`, `email`, `password`, `number`, `date`, `boolean`) along with specific validation constraints like `minLength`, `maxLength`, `min`, `max`, `regex`, and `optional`.
 
 ```js
 const formSchema = makeFormSchema({
@@ -116,7 +116,7 @@ email: {
 });
 ```
 
-Though, you can directly use `zod` to define schema as well and pass it to the Form props created through `createFormValidator` method.
+You can also directly use `Zod` to define schema as well and pass it to the Form props created through `createFormValidator` method.
 
 ```tsx
 import { z } from "zod";
@@ -145,16 +145,15 @@ You can specify the following validation options for each field:
 
 -  For Tailwind (pre-styled)
 
-Follow the [Official Tailwind Docs](https://tailwindcss.com/docs/installation/framework-guides) for initializing project with vite or next.js
+Follow the [Official Tailwind Docs](https://tailwindcss.com/docs/installation/framework-guides) for initializing project with vite or next.js.
 
-You can add your own styles or import the below css (styled with tailwind css) file into the main or App component or the component where the form is being used
+You can add your own styles or import the CSS below (styled with TailwindCSS) file into the main or App component or the component where the form is being used.
 
 ```js
 import "formaze/dist/style.css";
 ```
 
--  For Pure CSS
-   Here are the css classes with default styles, add it into main css file
+-  For Pure CSS, here are the CSS classes with default styles, add them to your main CSS file
 
 ```css
 .form-control {
@@ -196,7 +195,7 @@ import "formaze/dist/style.css";
 
 ## For Next.js (app router)
 
-You just have to add `"use client"` directive at the top of your file where you are using this form and its related methods
+You just need to add `"use client"` directive at the top of your file where you are using this form and its related methods
 
 ```tsx
 "use client";
@@ -222,7 +221,7 @@ The createFormValidator function accepts an argument which is a type of zod sche
 -  Type: `T` (A Zod schema) (optional)
 
 -  Description:
-   This optional schema prop is a schema used to define the structure and validation rules for the form. This schema determines the expected fields, their types, and any validation logic, such as required fields, minimum/maximum values, regex patterns, etc. **NOTE: In future version this prop will be deprecated. As of now this prop is no longer needed.**
+   This optional schema prop defines the structure and validation rules for the form. This schema determines the expected fields, their types, and any validation logic, such as required fields, minimum/maximum values, regex etc. **NOTE: In future version this prop will be deprecated. As of now this prop is no longer needed.**
 
 -  Example:
 
@@ -291,9 +290,9 @@ const defaultValues = {
 -  Type: `React.ReactNode`
 
 -  Description:
-   The children prop accepts form inputs and other JSX elements to be rendered inside the Form component. It specifically expects components like Form.Input, which is designed to integrate with the form's validation logic. The Form.Input component handles binding form fields to the Zod schema, ensuring that validation rules are properly applied.
+   The children prop accepts form inputs and other JSX elements to be rendered inside the Form component. It specifically expects components like `Form.Input`, which is designed to integrate with the form's validation logic. The `Form.Input` component handles binding form fields to the Zod schema, ensuring that validation rules are properly applied.
 
-You can include Form.Input for each form field, along with any other elements like buttons or additional form elements. The Form.Input automatically manages validation states based on the schema.
+You can include `Form.Input` for each form field, along with any other elements like buttons or additional form elements. The `Form.Input` automatically manages validation states based on the schema.
 
 -  Example:
 
@@ -326,15 +325,15 @@ The Form.Input component is a form input field that is connected to a Zod-based 
 
 **Props:**
 
--  name: `keyof z.infer<T>`
+name: `keyof z.infer<T>`
 -  Description:
    The name of the form field, which should correspond to one of the keys in the Zod schema used in the form. This connects the input to the form's validation logic.
 
--  label: `string` (optional)
+label: `string` (optional)
 -  Description:
    A label for the form field. This is used for displaying a descriptive text for the input field.
 
--  ...props: `React.HTMLAttributes<HTMLInputElement>`
+...props: `React.InputHTMLAttributes<HTMLInputElement>`
 -  Description:
    Any additional props that can be passed to an HTML input element. These props allow you to customize the input field, such as adding a placeholder, className, type, etc.
 
@@ -372,7 +371,7 @@ This schema can then be passed to the Form component returned by `createFormVali
 
 1. The `createFormValidator` has been changed and now it is accepting an argument which is a type of zod schema generated through `makeFormSchema` or directly from `Zod` and the rest of the logic will be the same as before.
 
-In order to give proper type support for JavaScript project and to simplify the defining process this change has been made.
+In order to give proper type support for JavaScript projects and to simplify the defining process this change has been made.
 
 **From this**
 ```tsx 
