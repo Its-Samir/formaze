@@ -1,9 +1,9 @@
 {
 	"name": "formaze",
-	"description": "An easy form validation package for react, built by using React hook form and zod library",
+	"description": "Easily build forms with custom validation logic for React",
 	"main": "dist/formaze.js",
 	"types": "dist/index.d.ts",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"type": "module",
 	"keywords": [
 		"react",
