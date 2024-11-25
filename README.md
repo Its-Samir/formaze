@@ -28,55 +28,55 @@ import "formaze/dist/style.css";
 
 // create the validation schema
 const formSchema = makeFormSchema({
-	email: { type: "email" },
-	password: { type: "password", minLength: { value: 8 } },
+ email: { type: "email" },
+ password: { type: "password", minLength: { value: 8 } },
 });
 
-// create the form
+// create the form component
 const Form = createFormValidator(formSchema);
 
 export function MyForm() {
-	// for TypeScript
-	function handleSubmit(data: z.infer<typeof formSchema>) {
-		const result = formSchema.safeParse(data);
+ // for TypeScript
+ function handleSubmit(data: z.infer<typeof formSchema>) {
+  const result = formSchema.safeParse(data);
 
-		if (!result.success) throw new Error("Invalid inputs");
+  if (!result.success) throw new Error("Invalid inputs");
 
-		console.log(data);
-	}
+  console.log(data);
+ }
 
-	// for JavaScript
-	// /**@param {import("zod").infer<typeof formSchema>} data */
-	// function handleSubmit(data) {
-	//  const result = formSchema.safeParse(data);
+ // for JavaScript
+ // /**@param {import("zod").infer<typeof formSchema>} data */
+ // function handleSubmit(data) {
+ //  const result = formSchema.safeParse(data);
 
-	//  if (!result.success) throw new Error("Invalid inputs");
+ //  if (!result.success) throw new Error("Invalid inputs");
 
-	//  console.log(data);
-	// }
+ //  console.log(data);
+ // }
 
-	return (
-		<Form onSubmit={handleSubmit}>
-			<Form.Input
-				label="Email"
-				type="email"
-				name="email"
-				placeholder="Enter your email"
-			/>
-			<Form.Input
-				label="Password"
-				type="password"
-				name="password"
-				placeholder="Enter your password"
-			/>
-			<button
-				className="rounded-md bg-blue-500 py-1 px-3 text-white hover:bg-blue-600"
-				type="submit"
-			>
-				Submit
-			</button>
-		</Form>
-	);
+ return (
+  <Form onSubmit={handleSubmit}>
+   <Form.Input
+    label="Email"
+    type="email"
+    name="email"
+    placeholder="Enter your email"
+   />
+   <Form.Input
+    label="Password"
+    type="password"
+    name="password"
+    placeholder="Enter your password"
+   />
+   <button
+    className="rounded-md bg-blue-500 py-1 px-3 text-white hover:bg-blue-600"
+    type="submit"
+   >
+    Submit
+   </button>
+  </Form>
+ );
 }
 ```
 
@@ -86,33 +86,33 @@ The makeFormSchema method allows you to define validation rules for each field i
 
 ```js
 const formSchema = makeFormSchema({
-	email: {
-		type: "email",
-		customMessage: "A valid email is required",
-	},
-	password: {
-		type: "password",
-		minLength: {
-			value: 8,
-			message: "Password must be at least 8 characters",
-		},
-		maxLength: {
-			value: 16,
-			message: "Password must be less than 16 characters",
-		},
-	},
-	username: {
-		type: "string",
-		maxLength: {
-			value: 12,
-			message: "Username must be less than 12 characters",
-		},
-		customMessage: "Username must not be empty",
-	},
-	terms: {
-		type: "boolean",
-		customMessage: "You must accept the terms to continue",
-	},
+ email: {
+  type: "email",
+  customMessage: "A valid email is required",
+ },
+ password: {
+  type: "password",
+  minLength: {
+   value: 8,
+   message: "Password must be at least 8 characters",
+  },
+  maxLength: {
+   value: 16,
+   message: "Password must be less than 16 characters",
+  },
+ },
+ username: {
+  type: "string",
+  regex: {
+   value: /^[a-z0-9]{3,}$/ /* only lowercase letters and numbers */,
+   message: "Username must contains lowercase letters and numbers",
+  },
+  customMessage: "Username must not be empty",
+ },
+ terms: {
+  type: "boolean",
+  customMessage: "You must accept the terms to continue",
+ },
 });
 ```
 
@@ -123,8 +123,8 @@ import { z } from "zod";
 import { createFormValidator } from "formaze";
 
 const formSchema = z.object({
-	email: z.string().email(),
-	name: z.string().min(3, { message: "Required" }),
+ email: z.string().email(),
+ name: z.string().min(3, { message: "Required" }),
 });
 
 const Form = createFormValidator(formSchema);
@@ -157,39 +157,37 @@ import "formaze/dist/style.css";
 
 ```css
 .form-control {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 1rem;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ gap: 1rem;
 }
 
 .form-control .form-field {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
 }
 
 .form-control .form-field .form-input {
-	padding: 10px 1rem;
-	border-radius: 10px;
-	border-width: 1px;
-	border-color: rgb(209 213 219);
+ padding: 10px 1rem;
+ border-radius: 10px;
+ border-width: 1px;
+ border-color: rgb(209 213 219);
 }
 
 .form-control .form-field .form-input:focus {
-	border-color: rgb(59 130 246);
-	outline: none;
+ border-color: rgb(59 130 246);
+ outline: none;
 }
 
 .form-control .form-field-error-text {
-	color: rgb(220, 38, 38);
-	font-size: 0.875rem;
-}
-
+ color: rgb(220, 38, 38);
+ font-size: 0.875rem;   
 /* or */
 
 .form-control .form-field-error {
-	color: rgb(220, 38, 38);
+ color: rgb(220, 38, 38);
 }
 ```
 
@@ -227,8 +225,8 @@ The createFormValidator function accepts an argument which is a type of zod sche
 
 ```tsx
 const schema = makeFormSchema({
-	email: { type: "email" },
-	password: { type: "string", minLength: { value: 8 } },
+ email: { type: "email" },
+ password: { type: "string", minLength: { value: 8 } },
 });
 
 const Form = createFormValidator(schema);
@@ -247,14 +245,14 @@ const Form = createFormValidator(schema);
 
 ```tsx
 const schema = makeFormSchema({
-	email: { type: "email" },
-	password: { type: "string" },
+ email: { type: "email" },
+ password: { type: "string" },
 });
 
 const Form = createFormValidator(schema);
 
 const handleSubmit = (data: z.infer<typeof schema>) => {
-	console.log(data); // { email: "test@example.com", password: "securePassword" }
+ console.log(data); // { email: "test@example.com", password: "securePassword" }
 };
 
 <Form onSubmit={handleSubmit} />;
@@ -271,15 +269,15 @@ const handleSubmit = (data: z.infer<typeof schema>) => {
 
 ```tsx
 const schema = makeFormSchema({
-	email: { type: "email" },
-	password: { type: "string" },
+ email: { type: "email" },
+ password: { type: "string" },
 });
 
 const Form = createFormValidator(schema);
 
 const defaultValues = {
-	email: "example@example.com",
-	password: "",
+ email: "example@example.com",
+ password: "",
 };
 
 <Form defaultValues={defaultValues} />;
@@ -298,9 +296,9 @@ You can include `Form.Input` for each form field, along with any other elements 
 
 ```tsx
 <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-	<Form.Input type="email" name="email" placeholder="Email" />
-	<Form.Input type="password" name="password" placeholder="Password" />
-	<button type="submit">Submit</button>
+ <Form.Input type="email" name="email" placeholder="Email" />
+ <Form.Input type="password" name="password" placeholder="Password" />
+ <button type="submit">Submit</button>
 </Form>
 ```
 
@@ -357,14 +355,14 @@ The makeFormSchema is a function that generates a Zod schema based on the provid
 
 ```tsx
 const schema = makeFormSchema({
-	email: { type: "email" },
-	password: {
-		type: "string",
-		minLength: {
-			value: 8,
-			message: "Password must be at least 8 characters long",
-		},
-	},
+ email: { type: "email" },
+ password: {
+  type: "string",
+  minLength: {
+   value: 8,
+   message: "Password must be at least 8 characters long",
+  },
+ },
 });
 ```
 
